@@ -24,18 +24,28 @@ $(document).ready(function() {
 
     if (flights[x].booked === true) {
       var bookedStatus = "IS BOOKED";
-      var flightInfo = "Flight " + flights[x].id + " to " + flights[x].destination + " " + bookedStatus;
+      var flightInfo = "Flight " + flights[x].id + " to " + flights[x].destination + " <span class='status'>" + bookedStatus + "</span>";
     $('.flights').append("<div id=flight-" + flights[x].id + ">" + flightInfo + "</div>");
     } else {
-      var bookedStatus = "IS NOT BOOKED";
-      var flightInfo = "Flight " + flights[x].id + " to " + flights[x].destination + " " + bookedStatus;
+      var bookedStatus = "is not booked";
+      var flightInfo = "Flight " + flights[x].id + " to " + flights[x].destination + " <span class='status'>" + bookedStatus + '</span>';
     $('.flights').append("<div id=flight-" + flights[x].id + ">" + flightInfo + "<button data-flight-number='" + flights[x].id + "' class='book-flight'>Book</button></div>");
     }    
   }
 
   $('.book-flight').click(function(e){
-    // `e` is an "event object." The actual element you clicked on is `e.target`
-    console.log($(e.target).data('flight-number'));
+    var flightNum = $(e.target).data('flight-number');
+    var flight;
+
+    for(i=0; i < flights.length; i++) {
+      if (flights[i].id == flightNum) {
+        flight = flights[i]
+      }
+    }
+
+    flight.booked = true;
+    $('#flight-' + flight.id).find('.status').text('IS BOOKED');
+    $('#flight-' + flight.id).find('.book-flight').hide();
   })
 
 });
